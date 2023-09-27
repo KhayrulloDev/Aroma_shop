@@ -42,3 +42,5 @@ class ContactView(View):
 
     def get(self, request):
         return render(request, 'contact.html')
+
+
