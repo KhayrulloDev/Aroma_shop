@@ -32,7 +32,7 @@
                                aria-haspopup="true"
                                aria-expanded="false">Shop</a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="category">Shop Category</a></li>
+                                <li class="nav-item"><a class="nav-link" href="category">Shop</a></li>
                                 <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="checkout">Product Checkout</a></li>
@@ -67,7 +67,11 @@
                             <i class="fas fa-shopping-cart text-primary"></i>
                             <span class="badge">0</span>
                         </a>
-                        <li class="nav-item"><a class="button button-header" href="account/sign-in">Login</a></li>
+                        {% if user.is_authenticated %}
+                                <a href="/accounts/logout" class="nav-item nav-link">{{ user.username }}</a>
+                            {% else %}
+                                 <li class="nav-item"><a class="button button-header" href="account/login">Login</a></li>
+                            {% endif %}
                     </ul>
                 </div>
             </div>
