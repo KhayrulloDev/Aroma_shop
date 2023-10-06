@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth import get_user_model, hashers, authenticate, login
+from django.contrib.auth import get_user_model, hashers, authenticate, login, logout
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -11,16 +12,13 @@ class SignInView(View):
 
     def post(self, request):
         username = request.POST.get('username')
-        print(username)
         password = request.POST.get('password')
-        print(password)
         user = authenticate(username=username, password=password)
-        print(user)
         if user is not None:
             login(request, user)
             return redirect('/')
         else:
-            print("Username or password is incorrect")
+            messages.error(request, "Username or password is incorrect")
             return redirect('/account/login')
 
 
@@ -38,10 +36,10 @@ class RegisterView(View):
 
         if password1 == password2:
             if User.objects.filter(email=email).exists():
-                print("Email already exists")
+                messages.error(request, "Email already exists")
                 return redirect('/account/register')
             if User.objects.filter(username=username).exists():
-                print("Username already exists")
+                messages.error(request, "Username already exists")
                 return redirect('/account/register')
             else:
                 user = User.objects.create_user(
@@ -55,5 +53,12 @@ class RegisterView(View):
                 return redirect('/account/login')
 
         else:
-            print("Passwords are not same!!")
+            messages.error(request, "Passwords are not same!!")
             return redirect('/account/register')
+
+
+class LogoutView(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect('/')
