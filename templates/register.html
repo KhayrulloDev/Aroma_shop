@@ -40,14 +40,14 @@
     <!--================Login Box Area =================-->
     <section class="login_box_area section-margin">
         <div class="container">
-        {% if messages %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {% for message in messages %}
-                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                {% endfor %}
-            </div>
-        {% endif %}
+            {% if messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <div class="row">
                 <div class="col-lg-6">
                     <div class="login_box_img">
@@ -55,7 +55,7 @@
                             <h4>Already have an account?</h4>
                             <p>There are advances being made in science and technology everyday, and a good example of
                                 this is the</p>
-                            <a class="button button-account" href="account/login">Login Now</a>
+                            <a class="button button-account" href="/account/login">Login Now</a>
                         </div>
                     </div>
                 </div>

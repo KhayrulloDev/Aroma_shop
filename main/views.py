@@ -58,11 +58,11 @@ class ContactView(View):
         return render(request, 'contact.html')
 
 
-# class SingleProductView(View):
-#     def post(self, request):
-#         product_id = request.GET.get('id')
-#         product = Product.objects.get(id=product_id)
-#         return render(request, 'single-product.html')
+class SingleProductView(View):
+    def post(self, request):
+        product_id = request.GET.get('id')
+        product = Product.objects.get(id=product_id)
+        return render(request, 'single-product.html', {'product': product})
 
 class AddProductView(CreateView):
     model = Product

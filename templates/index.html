@@ -101,7 +101,10 @@
               <div class="card-product__img">
                 <img class="card-img" src="{% static 'img/product/product1.png' %}" alt="">
                 <ul class="card-product__imgOverlay">
-                  <li><button><i class="ti-search"></i></button></li>
+                  <form method="post">
+                      <input type="hidden" name="id" value="{{ product.id }}">
+                      <li><button><i class="ti-search"></i></button></li>
+                  </form>
                   <li><button><i class="ti-shopping-cart"></i></button></li>
                   <li><button><i class="ti-heart"></i></button></li>
                 </ul>
