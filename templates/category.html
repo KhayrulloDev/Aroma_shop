@@ -177,6 +177,7 @@
                                                     <button><i class="ti-search"></i></button>
                                                 </li>
                                                 <form method="post">
+                                                    {% csrf_token %}
                                                     <li>
                                                         <input type="hidden" name="id" value="{{ product.id }}">
                                                         <button><i class="ti-shopping-cart" type="submit"></i></button>
@@ -190,7 +191,7 @@
                                         <div class="card-body">
                                             <p>Accessories</p>
                                             <h4 class="card-product__title"><a
-                                                    href="single-product">{{ product.name }}</a></h4>
+                                                    href="/single-product">{{ product.name }}</a></h4>
                                             <p class="card-product__price">${{ product.price }}</p>
                                         </div>
                                     </div>
@@ -547,3 +548,5 @@
     <script src="{% static 'vendors/mail-script.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
 {% endblock %}
+
+

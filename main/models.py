@@ -19,3 +19,10 @@ class Product(models.Model):
 class Picture(models.Model):
     image = models.ImageField(upload_to='pics')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+
+class Korzinka(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    count = models.IntegerField(default=1)
+    uploaded = models.DateTimeField(auto_now_add=True)

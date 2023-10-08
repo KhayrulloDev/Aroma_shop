@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (HomeView, CategoryView, BlogView,
                     ShoppingView, CheckoutView,
                     ConfirmationView, ContactView,
-                    TrackingOrderView, SingleProductView
+                    TrackingOrderView, SingleProductView, IncrementCountView, DecrementCountView
                     )
 
 urlpatterns = [
@@ -16,4 +16,6 @@ urlpatterns = [
     path('contact', ContactView.as_view(), name='contact'),
     path('tracking-order', TrackingOrderView.as_view(), name='tracking'),
     path('single-product', SingleProductView.as_view(), name='single-product'),
+    path('increment-count', IncrementCountView.as_view()),
+    path('decrement-count', DecrementCountView.as_view),
 ]
