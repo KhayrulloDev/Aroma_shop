@@ -74,23 +74,13 @@
                                     <h5>${{ product.price }}</h5>
                                 </td>
                                 <td>
-                                    <div class="input-group quantity mx-auto" style="width: 100px;">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary btn-minus"
-                                                    onclick="decrement({{ product.id }})">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                        <input type="text" class="form-control text-center quantity-amount"
-                                               value="{{ product.count }}" placeholder=""
-                                               aria-label="Example text with button addon"
-                                               aria-describedby="button-addon1">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary btn-plus"
-                                                    onclick="increment({{ product.id }})">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
+                                    <div class="product_count">
+                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
+                                          class="input-text qty">
+                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) {result.value++;increment({{ product.id }})};return false;"
+                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) {result.value--;decrement({{ product.id }})};return false;"
+                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                                     </div>
                                 </td>
                                 <td>
