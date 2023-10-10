@@ -171,7 +171,7 @@
                                     <div class="card text-center card-product">
                                         <div class="card-product__img">
                                             <img class="card-img" src="{{ product.image.image.url }}" alt=""
-                                                 style="height: 300px !important;">
+                                                 style="height: 250px  !important;">
                                             <ul class="card-product__imgOverlay">
                                                 <li>
                                                     <button><i class="ti-search"></i></button>
@@ -188,11 +188,13 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="card-body">
-                                            <p>Accessories</p>
-                                            <h4 class="card-product__title"><a
-                                                    href="/single-product">{{ product.name }}</a></h4>
+                                        <div class="card-body  text-center ">
+                                            <p class="text-capitalize text-dark">category : {{ product.category.name }}</p>
+                                            <div class = "text-center d-flex justify-content-around">
+                                            <input type="hidden" name="id" value="{{ product.id}}">
+                                            <h4 class="card-product__title text-capitalize"><a href="/single-product">{{ product.name }}</a></h4>
                                             <p class="card-product__price">${{ product.price }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

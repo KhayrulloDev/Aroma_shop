@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load custom_tags %}
 
 {% block title %}
     <title>Aroma Shop - Cart</title>
@@ -63,10 +63,10 @@
                                 <td>
                                     <div class="media">
                                         <div class="d-flex">
-                                            <img src="{{ product.image.image.url }}" alt="">
+                                            <img src="{{ product.image.image.url }}" class="card-img" style="width: 180px; height: 120px" alt="">
                                         </div>
                                         <div class="media-body">
-                                            <p>Minimalistic shop for multipurpose use</p>
+                                            <p>{{ product.name }}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -75,19 +75,25 @@
                                 </td>
                                 <td>
                                     <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
+                                      <input type="text" name="qty" id="sst" maxlength="12" value="{{ product.count }}" title="Quantity:"
                                           class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) {result.value++;increment({{ product.id }})};return false;"
+                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) {result.value++;increment({{ product.price }}, {{ product.id }})};return false;"
                                           class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) {result.value--;decrement({{ product.id }})};return false;"
+                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) {result.value--;decrement({{ product.price }}, {{ product.id }})};return false;"
                                           class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                                     </div>
                                 </td>
                                 <td>
-                                    <h5>$720.00</h5>
+                                    <span id="total_price_{{ product.id }}">${% total_price product.price product.count %}</span>
                                 </td>
                                 <td>
-                                    <button class="btn-danger" type="submit">X</button>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ product.id }}">
+                                        <button class="btn btn-sm btn-danger" type="submit"><i class="fa fa-times"></i>
+                                        </button>
+                                    </form>
+
                                 </td>
                             </tr>
                         {% endfor %}
@@ -147,89 +153,89 @@
                         {#                                  <h5>$720.00</h5>#}
                         {#                              </td>#}
                         {#                          </tr>#}
-                        {#                          <tr class="bottom_button">#}
-                        {#                              <td>#}
-                        {#                                  <a class="button" href="#">Update Cart</a>#}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {#                                  <div class="cupon_text d-flex align-items-center">#}
-                        {#                                      <input type="text" placeholder="Coupon Code">#}
-                        {#                                      <a class="primary-btn" href="#">Apply</a>#}
-                        {#                                      <a class="button" href="#">Have a Coupon?</a>#}
-                        {#                                  </div>#}
-                        {#                              </td>#}
-                        {#                          </tr>#}
-                        {#                          <tr>#}
-                        {#                              <td>#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {#                                  <h5>Subtotal</h5>#}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {#                                  <h5>$2160.00</h5>#}
-                        {#                              </td>#}
-                        {#                          </tr>#}
-                        {#                          <tr class="shipping_area">#}
-                        {#                              <td class="d-none d-md-block">#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {#                                  <h5>Shipping</h5>#}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {#                                  <div class="shipping_box">#}
-                        {#                                      <ul class="list">#}
-                        {#                                          <li><a href="#">Flat Rate: $5.00</a></li>#}
-                        {#                                          <li><a href="#">Free Shipping</a></li>#}
-                        {#                                          <li><a href="#">Flat Rate: $10.00</a></li>#}
-                        {#                                          <li class="active"><a href="#">Local Delivery: $2.00</a></li>#}
-                        {#                                      </ul>#}
-                        {#                                      <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>#}
-                        {#                                      <select class="shipping_select">#}
-                        {#                                          <option value="1">Bangladesh</option>#}
-                        {#                                          <option value="2">India</option>#}
-                        {#                                          <option value="4">Pakistan</option>#}
-                        {#                                      </select>#}
-                        {#                                      <select class="shipping_select">#}
-                        {#                                          <option value="1">Select a State</option>#}
-                        {#                                          <option value="2">Select a State</option>#}
-                        {#                                          <option value="4">Select a State</option>#}
-                        {#                                      </select>#}
-                        {#                                      <input type="text" placeholder="Postcode/Zipcode">#}
-                        {#                                      <a class="gray_btn" href="#">Update Details</a>#}
-                        {#                                  </div>#}
-                        {#                              </td>#}
-                        {#                          </tr>#}
-                        {#                          <tr class="out_button_area">#}
-                        {#                              <td class="d-none-l">#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td class="">#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {##}
-                        {#                              </td>#}
-                        {#                              <td>#}
-                        {#                                  <div class="checkout_btn_inner d-flex align-items-center">#}
-                        {#                                      <a class="gray_btn" href="#">Continue Shopping</a>#}
-                        {#                                      <a class="primary-btn ml-2" href="#">Proceed to checkout</a>#}
-                        {#                                  </div>#}
-                        {#                              </td>#}
-                        {#                          </tr>#}
+                                                  <tr class="bottom_button">
+                                                      <td>
+                                                          <a class="button" href="#">Update Cart</a>
+                                                      </td>
+                                                      <td>
+
+                                                      </td>
+                                                      <td>
+
+                                                      </td>
+                                                      <td>
+                                                          <div class="cupon_text d-flex align-items-center">
+                                                              <input type="text" placeholder="Coupon Code">
+                                                              <a class="primary-btn" href="#">Apply</a>
+                                                              <a class="button" href="#">Have a Coupon?</a>
+                                                          </div>
+                                                      </td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td>
+
+                                                      </td>
+                                                      <td>
+
+                                                      </td>
+                                                      <td>
+                                                          <h5>Subtotal</h5>
+                                                      </td>
+                                                      <td>
+                                                          <h5>$2160.00</h5>
+                                                      </td>
+                                                  </tr>
+                                                  <tr class="shipping_area">
+                                                      <td class="d-none d-md-block">
+
+                                                      </td>
+                                                      <td>
+
+                                                      </td>
+                                                      <td>
+                                                          <h5>Shipping</h5>
+                                                      </td>
+                                                      <td>
+                                                          <div class="shipping_box">
+                                                              <ul class="list">
+                                                                  <li><a href="#">Flat Rate: $5.00</a></li>
+                                                                  <li><a href="#">Free Shipping</a></li>
+                                                                  <li><a href="#">Flat Rate: $10.00</a></li>
+                                                                  <li class="active"><a href="#">Local Delivery: $2.00</a></li>
+                                                              </ul>
+                                                              <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
+                                                              <select class="shipping_select">
+                                                                  <option value="1">Bangladesh</option>
+                                                                  <option value="2">India</option>
+                                                                  <option value="4">Pakistan</option>
+                                                              </select>
+                                                              <select class="shipping_select">
+                                                                  <option value="1">Select a State</option>
+                                                                  <option value="2">Select a State</option>
+                                                                  <option value="4">Select a State</option>
+                                                              </select>
+                                                              <input type="text" placeholder="Postcode/Zipcode">
+                                                              <a class="gray_btn" href="#">Update Details</a>
+                                                          </div>
+                                                      </td>
+                                                  </tr>
+                                                  <tr class="out_button_area">
+                                                      <td class="d-none-l">
+
+                                                      </td>
+                                                      <td class="">
+
+                                                      </td>
+                                                      <td>
+
+                                                      </td>
+                                                      <td>
+                                                          <div class="checkout_btn_inner d-flex align-items-center">
+                                                              <a class="gray_btn" href="/category">Continue Shopping</a>
+                                                              <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                                          </div>
+                                                      </td>
+                                                  </tr>
                         </tbody>
                     </table>
                 </div>
@@ -251,28 +257,65 @@
     <script src="{% static 'vendors/jquery.ajaxchimp.min.js' %}"></script>
     <script src="{% static 'vendors/mail-script.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+{#    <script>#}
+{#        const increment = (id) => {#}
+{#             fetch('http://127.0.0.1:8000/increment-count', {#}
+{#                method: 'POST',#}
+{#                headers: {#}
+{#                    'Content-Type': 'application/json'#}
+{#                },#}
+{#                body: JSON.stringify({#}
+{#                    id: id,#}
+{##}
+{#                })#}
+{#             }).then(rsp=>rsp.json()).then(response=>console.log(response))#}
+{#         }#}
+{#         const decrement = (id) => {#}
+{#             fetch('http://127.0.0.1:8000/decrement-count', {#}
+{#                method: 'POST',#}
+{#                body: JSON.stringify({#}
+{#                    id: id,#}
+{##}
+{#                })#}
+{#             }).then(rsp=>rsp.json()).then(response=>console.log(response))#}
+{#         }#}
+{#    </script>#}
     <script>
-        const increment = (id) => {
-             fetch('http://127.0.0.1:8000/increment-count', {
+        const increment = (price, id) => {
+            fetch('http://127.0.0.1:8000/increment-count', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: id,
-
+                    id: id
                 })
-             }).then(rsp=>rsp.json()).then(response=>console.log(response))
-         }
-         const decrement = (id) => {
-             fetch('http://127.0.0.1:8000/decrement-count', {
+            }).then(rsp=>rsp.json()).then(response=>console.log(response))
+            calculate_total(price, id, 1)
+        }
+        const decrement = (price, id) => {
+            fetch('http://127.0.0.1:8000/decrement-count', {
                 method: 'POST',
                 body: JSON.stringify({
-                    id: id,
-
+                    id: id
                 })
-             }).then(rsp=>rsp.json()).then(response=>console.log(response))
-         }
+            }).then(rsp=>rsp.json()).then(response=>console.log(response))
+            calculate_total(price, id, 2)
+        }
+        const calculate_total = (price, id, value) => {
+            let product_count = document.getElementById('product_count_' + id).value
+            if (value === 1) {
+                product_count++
+            }
+            else {
+                if (parseInt(product_count) !== 0) {
+                    product_count--
+                }
+            }
+            const total_price = product_count * price
+            console.log(product_count)
+            document.getElementById('total_price_' + id).innerHTML = '$' + `${total_price}`
+        }
     </script>
 
 {% endblock %}

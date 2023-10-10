@@ -33,13 +33,23 @@ class CategoryView(View):
     def post(self, request):
         id = request.POST.get('id')
         user_id = request.user.id
-        card = Korzinka.objects.create(
-            product_id=id,
-            user_id=user_id
-        )
-        card.save()
-        messages.info(request, 'Added successfully!')
-        return redirect('/shopping_cart')
+        try:
+            check_card = Korzinka.objects.get(user=request.user, product=id)
+            # If a matching Korzinka object is found, you might want to update it here.
+            # For example, you can increment the quantity.
+            # check_card.quantity += 1
+            # check_card.save()
+            messages.info(request, 'Added successfully!')
+            return redirect('/shopping_cart')
+        except Korzinka.DoesNotExist:
+            # Create a new Korzinka object if none exists for the user and product.
+            card = Korzinka.objects.create(
+                product_id=id,
+                user_id=user_id
+            )
+            card.save()
+            messages.info(request, 'Added successfully!')
+            return redirect('/category')
 
 
 class BlogView(View):
@@ -58,6 +68,8 @@ class ShoppingView(View):
         data = []
         for product in products:
             shop = Korzinka.objects.get(Q(user=request.user, product=product))
+            image = Picture.objects.filter(product=product).first()
+            product.image = image
             product.count = shop.count
             data.append(product)
         self.context.update({'products': data})
@@ -90,9 +102,9 @@ class ContactView(View):
 
 
 class SingleProductView(View):
-    def post(self, request):
+    def get(self, request):
         product_id = request.GET.get('id')
-        product = Product.objects.get(id=product_id)
+        product = Product.objects.filter(id=product_id)
         return render(request, 'single-product.html', {'product': product})
 
 
@@ -133,5 +145,6 @@ class DecrementCountView(View):
 
 
 class AddProductsView(View):
-    model = Product
-    template_name = 'add_products.html'
+
+    def get(self, request):
+        return render(request, 'add_product.html')

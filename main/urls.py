@@ -3,7 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 from .views import (HomeView, CategoryView, BlogView,
                     ShoppingView, CheckoutView,
                     ConfirmationView, ContactView,
-                    TrackingOrderView, SingleProductView, IncrementCountView, DecrementCountView
+                    TrackingOrderView, SingleProductView,
+                    IncrementCountView, DecrementCountView,
+                    AddProductsView
                     )
 
 urlpatterns = [
@@ -18,4 +20,5 @@ urlpatterns = [
     path('single-product', SingleProductView.as_view(), name='single-product'),
     path('increment-count', csrf_exempt(IncrementCountView.as_view()), name='increment-count'),
     path('decrement-count', csrf_exempt(DecrementCountView.as_view()), name='decrement-count'),
+    path('add-product', AddProductsView.as_view(), name='add-product'),
 ]
