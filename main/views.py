@@ -1,10 +1,11 @@
 from typing import Union
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.db.models import Q
-from .models import Product, Picture, Korzinka
+from .forms import ProductForm
+from .models import Product, Picture, Korzinka, Category
 from .utils import increment_count, decrement_count
 import json
 from django.http import JsonResponse
@@ -22,6 +23,7 @@ class CategoryView(View):
 
     def get(self, request):
         products = Product.objects.all()
+        print(products)
         product_data = []
         for product in products:
             image = Picture.objects.filter(product=product).first()
@@ -101,11 +103,27 @@ class ContactView(View):
         return render(request, 'contact.html')
 
 
+from django.shortcuts import render, get_object_or_404
+from django.views import View
+from .models import Product, Picture  # Import your Product and Picture models
+
+
 class SingleProductView(View):
-    def get(self, request):
-        product_id = request.GET.get('id')
-        product = Product.objects.filter(id=product_id)
-        return render(request, 'single-product.html', {'product': product})
+    def get(self, request, pk):
+        # Get the product based on the given primary key (pk)
+        product = get_object_or_404(Product, pk=pk)
+
+        # Get all images associated with the product (assuming you store multiple images for a product)
+        images = Picture.objects.filter(product=product).all()
+
+        print("Image >>>", images)
+        # Pass the product and images to the template
+        context = {
+            'product': product,
+            'images': images,
+        }
+
+        return render(request, 'single-product.html', context)
 
 
 class AddProductView(CreateView):
@@ -144,7 +162,45 @@ class DecrementCountView(View):
         return JsonResponse({'result': result})
 
 
-class AddProductsView(View):
+class AddProductView(View):
+    form_class = ProductForm
+    template_name = 'add_product.html'
 
     def get(self, request):
-        return render(request, 'add_product.html')
+        form = self.form_class()
+        return render(request, self.template_name)
+
+    def post(self, request):
+        # form = self.form_class(request.POST, request.FILES)
+        # print(form.data)
+
+
+        name = request.POST.get('product_name')
+        price = request.POST.get('product_price')
+        description = request.POST.get('product_description')
+        author = request.user  # Assuming request.user represents the product's author
+
+        # Get the selected category (assuming you have a form field for category)
+        category = Category.objects.filter(pk=request.POST.get('product_category')).first()
+
+        # Create the Product object with all required fields set
+        print(category)
+        product = Product.objects.create(
+            name=name,
+            price=price,
+            description=description,
+            user=author,  # Change 'author' to 'user'
+            category=category  # Set the category
+        )
+
+        images = request.FILES.getlist('product_image')  # Correctly access the uploaded files
+
+        for image in images:
+            picture = Picture.objects.create(
+                image=image,
+                product=product
+            )
+            picture.save()
+        return redirect('/')
+
+        # return render(request, self.template_name, {'form': form})

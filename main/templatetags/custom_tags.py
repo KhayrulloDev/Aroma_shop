@@ -1,5 +1,7 @@
 from django import template
 
+from main.models import Category
+
 register = template.Library()
 
 
@@ -7,3 +9,5 @@ register = template.Library()
 def total_price(price, count):
     sum1 = int(price) * int(count)
     return sum1
+
+

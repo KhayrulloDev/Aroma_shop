@@ -191,9 +191,11 @@
                                         <div class="card-body  text-center ">
                                             <p class="text-capitalize text-dark">category : {{ product.category.name }}</p>
                                             <div class = "text-center d-flex justify-content-around">
-                                            <input type="hidden" name="id" value="{{ product.id}}">
-                                            <h4 class="card-product__title text-capitalize"><a href="/single-product">{{ product.name }}</a></h4>
-                                            <p class="card-product__price">${{ product.price }}</p>
+                                            <form method="POST">
+                                                <input type="hidden" name="id" value="{{ product.id }}">
+                                            <h4 class="card-product__title text-capitalize"><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h4>
+                                            <p class="card-product__price">${{ product.price }}</p>`
+                                            </form>
                                             </div>
                                         </div>
                                     </div>
